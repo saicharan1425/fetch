@@ -21,22 +21,23 @@
   }
 
   const createTodo = async (e) => {
-    1
     e.preventDefault();
       const newTodo = {
         title : e.target.firstElementChild.value,
         completed : false
       }
 
-      fetch(apiUrl, {
+     const postFetch = await fetch(apiUrl, {
         method : 'Post',
         body: JSON.stringify(newTodo),
         headers : {
           'Content-type' : 'application/json',
         }
       })
-      .then(res => res.json())
-      .then(data => addTodoToDom(data))
+      const res = await postFetch.json()
+      
+      console.log(res);
+      addTodoToDom(res)
   }
 
   const toogleComplete = (e) => {
@@ -64,7 +65,7 @@
       fetch(`${apiUrl}/${id}`,{
         method: 'DELETE',
       })
-      .then(res => res.json)
+      .then(res => res.json())
       .then(() => e.target.remove())
     }
   }
